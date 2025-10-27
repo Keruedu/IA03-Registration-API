@@ -6,22 +6,20 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Enable CORS for React frontend (development and production)
-  // TODO: Replace with your actual frontend URL in production
-  const allowedOrigins =
-    process.env.NODE_ENV === 'production'
-      ? [
-          'https://ia03-registration.vercel.app',
-          'https://ia03-registration.netlify.app',
-          'https://ia03-registration.onrender.com',
-          /\.vercel\.app$/, // All Vercel preview deployments
-          /\.netlify\.app$/, // All Netlify preview deployments
-        ]
-      : [
-          'http://localhost:5173',
-          'http://localhost:5174',
-          'http://localhost:3000',
-          'http://localhost:3001',
-        ];
+  const allowedOrigins = process.env.NODE_ENV === 'production'
+    ? [
+        'https://ia03-registration.vercel.app',
+        'https://ia03-registration.netlify.app', 
+        'https://ia03-registration.onrender.com',
+        /\.vercel\.app$/, // All Vercel preview deployments
+        /\.netlify\.app$/, // All Netlify preview deployments
+      ]
+    : [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:3000',
+        'http://localhost:3001',
+      ];
 
   app.enableCors({
     origin: allowedOrigins,
