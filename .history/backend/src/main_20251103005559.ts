@@ -36,10 +36,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      // During development we relax the forbid rule so we can log and inspect
-      // incoming payloads that may contain wrapper objects. In production
-      // consider setting this back to `true` to enforce strict DTO shape.
-      forbidNonWhitelisted: false,
+      forbidNonWhitelisted: true,
       transform: true,
     }),
   );

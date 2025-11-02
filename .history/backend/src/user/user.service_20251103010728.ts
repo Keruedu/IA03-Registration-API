@@ -60,10 +60,4 @@ export class UserService {
       );
     }
   }
-
-    // Dev helper - delete a user by email. Only intended for development/testing.
-    async deleteByEmail(email: string): Promise<{ deletedCount: number }> {
-      const res = await this.userModel.deleteOne({ email }).exec();
-      return { deletedCount: res.deletedCount ?? 0 };
-    }
 }

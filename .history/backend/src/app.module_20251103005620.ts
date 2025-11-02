@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { DevModule } from './dev/dev.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -17,6 +18,8 @@ import { UserModule } from './user/user.module';
     UserModule,
     // Auth module provides login / refresh / me endpoints
     AuthModule,
+    // Development helpers (list/delete users)
+    DevModule,
   ],
   controllers: [AppController],
   providers: [AppService],

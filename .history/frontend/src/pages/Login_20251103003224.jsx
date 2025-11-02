@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle2 } from 'lucide-react';
-import { authService } from '@/lib/api';
-import { setAccessToken, setRefreshToken } from '@/lib/auth';
 
 export default function Login() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -18,25 +15,11 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-
-  const loginMutation = useMutation({
-    mutationFn: (d) => authService.login(d),
-    onSuccess: (res) => {
-      setAccessToken(res.accessToken);
-      setRefreshToken(res.refreshToken);
-      navigate('/dashboard');
-    },
-  });
-
   const onSubmit = (data) => {
-    setShowSuccess(false);
-    // Normalize email to avoid case/whitespace mismatches
-    const payload = { email: (data.email || '').trim().toLowerCase(), password: data.password };
-    // debug
-    // eslint-disable-next-line no-console
-    console.debug('[Login] submitting', { email: payload.email });
-    loginMutation.mutate(payload);
+    // Mock login - just show success message
+    console.log('Login attempt with:', data);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
@@ -54,15 +37,7 @@ export default function Login() {
               <Alert variant="success" className="bg-primary/10 border-primary/20">
                 <CheckCircle2 className="h-4 w-4 text-primary" />
                 <AlertDescription className="text-foreground">
-                  Login successful!
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {loginMutation.isError && (
-              <Alert variant="destructive" className="bg-destructive/10 border-destructive/20">
-                <AlertDescription className="text-foreground">
-                  {loginMutation.error?.response?.data?.message || 'Login failed'}
+                  Login successful! (This is a mock login)
                 </AlertDescription>
               </Alert>
             )}

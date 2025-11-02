@@ -23,20 +23,17 @@ export default function Login() {
   const loginMutation = useMutation({
     mutationFn: (d) => authService.login(d),
     onSuccess: (res) => {
+      // store tokens
       setAccessToken(res.accessToken);
       setRefreshToken(res.refreshToken);
+      // navigate to protected dashboard
       navigate('/dashboard');
     },
   });
 
   const onSubmit = (data) => {
     setShowSuccess(false);
-    // Normalize email to avoid case/whitespace mismatches
-    const payload = { email: (data.email || '').trim().toLowerCase(), password: data.password };
-    // debug
-    // eslint-disable-next-line no-console
-    console.debug('[Login] submitting', { email: payload.email });
-    loginMutation.mutate(payload);
+    loginMutation.mutate(data);
   };
 
   return (

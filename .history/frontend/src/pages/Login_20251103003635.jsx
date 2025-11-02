@@ -31,12 +31,7 @@ export default function Login() {
 
   const onSubmit = (data) => {
     setShowSuccess(false);
-    // Normalize email to avoid case/whitespace mismatches
-    const payload = { email: (data.email || '').trim().toLowerCase(), password: data.password };
-    // debug
-    // eslint-disable-next-line no-console
-    console.debug('[Login] submitting', { email: payload.email });
-    loginMutation.mutate(payload);
+    loginMutation.mutate(data);
   };
 
   return (

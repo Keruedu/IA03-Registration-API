@@ -82,10 +82,6 @@ export const authService = {
     const response = await api.post('/auth/login', data);
     return response.data;
   },
-  refresh: async (refreshToken) => {
-    const response = await axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken });
-    return response.data;
-  },
   me: async () => {
     const response = await api.get('/me');
     return response.data;

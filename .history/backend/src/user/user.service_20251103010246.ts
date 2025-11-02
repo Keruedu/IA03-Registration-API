@@ -61,9 +61,14 @@ export class UserService {
     }
   }
 
-    // Dev helper - delete a user by email. Only intended for development/testing.
-    async deleteByEmail(email: string): Promise<{ deletedCount: number }> {
-      const res = await this.userModel.deleteOne({ email }).exec();
-      return { deletedCount: res.deletedCount ?? 0 };
-    }
+  // Dev helper - list all users (exclude password)
+  async listAll() {
+    const users = await this.userModel.find({}, { password: 0 }).exec();
+    return users.map((u) => ({ id: u._id, email: u.email, createdAt: u.createdAt }));
+  }
+
+  // Dev helper - delete user by email
+  async deleteByEmail(email: string) {
+    return this.userModel.deleteOne({ email }).exec();
+  }
 }

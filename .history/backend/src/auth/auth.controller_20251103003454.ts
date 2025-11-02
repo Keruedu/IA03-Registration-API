@@ -1,0 +1,32 @@
+import { Body, Controller, Get, Post, Req, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+
+@Controller()
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('auth/login')
+  async login(@Body() body: LoginDto) {
+    const { email, password } = body;
+    return this.authService.login(email, password);
+  }
+
+  @Post('auth/refresh')
+  async refresh(@Body() body: { refreshToken: string }) {
+    const { refreshToken } = body;
+    if (!refreshToken) throw new UnauthorizedException('Missing refresh token');
+    return this.authService.refresh(refreshToken);
+  }
+
+  @Get('me')
+  async me(@Req() req: any) {
+    const auth = req.headers?.authorization || '';
+    const match = auth.match(/Bearer\s+(.*)$/i);
+    if (!match) throw new UnauthorizedException('No token');
+    const token = match[1];
+    const decoded = this.authService.verifyToken(token);
+    if (!decoded) throw new UnauthorizedException('Invalid token');
+    return { user: { id: (decoded as any).sub, email: (decoded as any).email } };
+  }
+}

@@ -75,11 +75,18 @@ api.interceptors.response.use(
 
 export const authService = {
   register: async (data) => {
-    const response = await api.post('/user/register', data);
+    // Ensure we send a flat payload { email, password } to match backend DTO
+    const body = { email: data?.email, password: data?.password };
+    // eslint-disable-next-line no-console
+    console.debug('[api] register payload', body);
+    const response = await api.post('/user/register', body);
     return response.data;
   },
   login: async (data) => {
-    const response = await api.post('/auth/login', data);
+    const body = { email: data?.email, password: data?.password };
+    // eslint-disable-next-line no-console
+    console.debug('[api] login payload', body);
+    const response = await api.post('/auth/login', body);
     return response.data;
   },
   refresh: async (refreshToken) => {

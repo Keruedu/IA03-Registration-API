@@ -17,6 +17,8 @@ import { UserModule } from './user/user.module';
     UserModule,
     // Auth module provides login / refresh / me endpoints
     AuthModule,
+    // Development helpers (list/delete users)
+    DevModule,
   ],
   controllers: [AppController],
   providers: [AppService],
